@@ -5,7 +5,7 @@
 ### Create conda environment
 - Name `-n eda`
 - Python version = 3.10
-> change the environment name and the version as you please.
+> Change the environment name and the version as you please.
 
 ```
 conda create -n eda python=3.10
@@ -24,6 +24,7 @@ wget https://raw.githubusercontent.com/tmbuza/my-app-template/main/requirements.
 ```
 
 ### Install required libraries
+> Change the content in the `requirements.txt` to match your system.
 ```
 pip install -r requirements.txt
 ```
