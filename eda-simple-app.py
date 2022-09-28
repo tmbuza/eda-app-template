@@ -36,7 +36,7 @@ with st.container():
 with st.sidebar.header('1. Upload your CSV data'):
     uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
     st.sidebar.markdown("""
-[Example CSV input file](https://raw.githubusercontent.com/dataprofessor/data/master/delaney_solubility_with_descriptors.csv)
+[Example CSV input file](https://raw.githubusercontent.com/tmbuza/my-app-template/main/data/jmwt2.csv)
 """)
 
 # Pandas Profiling Report
@@ -58,10 +58,7 @@ else:
         # Example data
         @st.cache
         def load_data():
-            a = pd.DataFrame(
-                np.random.rand(100, 5),
-                columns=['a', 'b', 'c', 'd', 'e']
-            )
+            a = pd.read_csv('data/jmwt.csv')
             return a
         df = load_data()
         pr = ProfileReport(df, explorative=True)
