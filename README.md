@@ -18,11 +18,11 @@ conda activate eda
 
 ### View required libraries
 - All required libraries are listed in the requirements.txt file
-- > Change the content in the `requirements.txt` to match the libraries installed on your system.
 - We can view the contents using `wget`like so:
 ```
 wget https://raw.githubusercontent.com/tmbuza/my-app-template/main/requirements.txt
 ```
+> Change the content in the `requirements.txt` to match the libraries installed on your system.
 
 ### Install required libraries
 ```
