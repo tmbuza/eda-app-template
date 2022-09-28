@@ -30,8 +30,11 @@ pip install -r requirements.txt
 ```
 
 ###  Download and unzip the GitHub repo
+- Link to zipped file: https://github.com/tmbuza/my-app-template/archive/refs/heads/main.zip
+- If you have git installed you can clone the repo like so:
 ```
-Link to zipped file: https://github.com/tmbuza/my-app-template/archive/refs/heads/main.zip
+git clone https://github.com/tmbuza/my-app-template.git
+cd my-app-template
 ```
 
 ###  Using streamlit to Launch the app
