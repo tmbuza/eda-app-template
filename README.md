@@ -24,7 +24,7 @@ wget https://raw.githubusercontent.com/tmbuza/my-app-template/main/requirements.
 ```
 
 ### Install required libraries
-> Change the content in the `requirements.txt` to match your system.
+> Change the content in the `requirements.txt` to match the libraries installed on your system.
 ```
 pip install -r requirements.txt
 ```
