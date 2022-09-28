@@ -1,11 +1,12 @@
-# my-app-template
-# A Template for building an EDA App using Python and Streamlit.
+# EDA App Template
 
 ## Getting Started
 
 ### Create conda environment
 - Name `-n eda`
 - Python version = 3.10
+> change the environment name and the version as you please.
+
 ```
 conda create -n eda python=3.10
 ```
