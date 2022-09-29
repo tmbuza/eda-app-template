@@ -34,7 +34,7 @@ with st.container():
     df['Date'] = pd.to_datetime(df['Date'])
     df = df.set_index('Date')
     st.dataframe(df)
-    df.to_csv('data/jmwt2.csv', index = False)
+    df.to_csv('data/jmwt2.csv', index = True)
 
     
   with col3: 
