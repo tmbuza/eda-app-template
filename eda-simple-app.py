@@ -58,7 +58,7 @@ with st.container():
 with st.container():
   st.write("##")
   st.write("---") 
-  st.header("Data Exploration")
+  st.header("Pandas data profiling")
 
 # Upload CSV data
 with st.sidebar.header('1. Upload Tidy CSV data'):
