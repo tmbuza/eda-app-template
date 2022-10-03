@@ -29,7 +29,7 @@ conda env remove -n eda
 - All required libraries are listed in the requirements.txt file
 - We can view the contents using `wget`like so:
 ```
-wget https://raw.githubusercontent.com/tmbuza/my-app-template/main/requirements.txt
+wget https://raw.githubusercontent.com/tmbuza/eda-app-template/main/requirements.txt
 ```
 
 > Change the content in the `requirements.txt` to match the libraries installed on your system.
@@ -41,17 +41,18 @@ pip install -r requirements.txt
 
 ###  Download and unzip the GitHub repo
 ```
-Link to zipped file: https://github.com/tmbuza/my-app-template/archive/refs/heads/main.zip
+Link to zipped file: https://github.com/tmbuza/eda-app-template/archive/refs/heads/main.zip
 
 - Link to zipped file: https://github.com/tmbuza/my-app-template/archive/refs/heads/main.zip
 - If you have git installed you can clone the repo and it will unzip automatically to the my-app-template folder.
 - Move to the project directory to allow the app to easily access the files.
 ```
-git clone https://github.com/tmbuza/my-app-template.git
+git clone https://github.com/tmbuza/eda-app-template.git
 cd my-app-template
 ```
 
 ###  Using streamlit to Launch the app
+The code for the app is in `eda-app.py` file.
 ```
 streamlit run eda-app.py
 ```
