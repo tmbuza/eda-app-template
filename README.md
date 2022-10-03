@@ -1,6 +1,6 @@
 # EDA App Template
 
-## Getting Started
+## How to reproduce this app
 
 ### Create conda environment
 - Name `-n eda`
@@ -40,12 +40,12 @@ pip install -r requirements.txt
 ```
 
 ###  Download and unzip the GitHub repo
-```
 Link to zipped file: https://github.com/tmbuza/eda-app-template/archive/refs/heads/main.zip
 
 - Link to zipped file: https://github.com/tmbuza/my-app-template/archive/refs/heads/main.zip
 - If you have git installed you can clone the repo and it will unzip automatically to the my-app-template folder.
 - Move to the project directory to allow the app to easily access the files.
+
 ```
 git clone https://github.com/tmbuza/eda-app-template.git
 cd my-app-template
