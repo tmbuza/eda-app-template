@@ -16,8 +16,7 @@ st.set_page_config(
      page_title='EDA App',
      page_icon=':tada:',
      layout='wide',
-     # layout='centered',
-     initial_sidebar_state='auto')
+     initial_sidebar_state='expanded')
      
 from plotnine.data import diamonds
 diamonds = diamonds.iloc[:, 0:]
