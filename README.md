@@ -1,4 +1,4 @@
-# EDA App Template
+# EDAA: Exploratory Data Analysis App
 
 ## How to reproduce this app
 
