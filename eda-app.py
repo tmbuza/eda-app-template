@@ -13,10 +13,11 @@ import seaborn as sns
        
 # Page configuration
 st.set_page_config(
-     page_title='Exploratory Analysis App',
+     page_title='EDA App',
      page_icon=':tada:',
-     layout='wide',
-     initial_sidebar_state='expanded')
+     # layout='wide',
+     layout='centered',
+     initial_sidebar_state='auto')
      
 from plotnine.data import diamonds
 diamonds = diamonds.iloc[:, 0:]
