@@ -15,8 +15,8 @@ import seaborn as sns
 st.set_page_config(
      page_title='EDA App',
      page_icon=':tada:',
-     # layout='wide',
-     layout='centered',
+     layout='wide',
+     # layout='centered',
      initial_sidebar_state='auto')
      
 from plotnine.data import diamonds
