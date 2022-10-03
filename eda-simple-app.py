@@ -6,8 +6,10 @@ from streamlit_pandas_profiling import st_profile_report
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
-
+import skimpy
+from skimpy import skim, generate_test_data
 import plotly.figure_factory as ff
+import seaborn as sns
         
 # Page configuration
 st.set_page_config(
@@ -86,122 +88,78 @@ with st.sidebar.header('1. Upload Tidy CSV data'):
 [Example CSV input file](https://raw.githubusercontent.com/tmbuza/my-app-template/main/data/iris.csv)
 """)
 
-# Pandas Profiling Report
+# # Pandas Profiling Report
+# if uploaded_file is not None:
+#     @st.cache
+#     def load_csv():
+#         csv = pd.read_csv(uploaded_file)
+#         return csv
+#     df = load_csv()
+#     st.header('**Input DataFrame**')
+#     st.write(df)
+#     st.header('**Pandas Profiling Report**')
+#     pr = ProfileReport(df, explorative=False)
+#     st_profile_report(pr)
+
+# else:
+#     st.info(':exclamation: Awaiting user\'s input file.')
+
 if uploaded_file is not None:
     @st.cache
-    def load_csv():
-        csv = pd.read_csv(uploaded_file)
-        return csv
-    df = load_csv()
-    st.header('**Input DataFrame**')
-    st.write(df)
-    # st.header('**Processed DataFrame**')
-    # st.write(df)
-    # st.write('---')
-    # st.header('**Pandas Profiling Report**')
-    # pr = ProfileReport(df, explorative=False)
-    # st_profile_report(pr)
-    st.subheader("Descriptive statistics")
-# st.markdown("Categorical variables")
-# st.dataframe(df.describe(include='all'))
+    def load_df():
+        df = pd.read_csv(uploaded_file)
+        return df
+      
+    df = load_df()
+    st.header("""Data Exploration""")
+    st.subheader("""Input DataFrame""")
+    st.write("Head", df.head())
+    st.write("Tail", df.tail())
 
-    st.markdown("Numerical variables")
+    st.subheader("""Dataframe dimension""")
+    st.markdown("> Note that 0 = rows, and 1 = columns")
+    st.dataframe(df.shape)
+
+    st.subheader("""Variable names""")
+    st.dataframe(pd.DataFrame({'Variable': df.columns}))
+    
+    st.subheader("""Data information""")
+    st.dataframe(df.info())
+    
+    st.subheader("""Descriptive statistics""")
     st.dataframe(df.describe())
     
-    st.subheader("Count distinct elements")
-    st.write("""
-    - Typically: 0 = rows [Default], 1 = headers or columns
-    """)
-    st.dataframe(df.nunique(axis=0))
+    st.subheader("""Missing values""")
+    missing_count = df.isnull().sum()
+    value_count = df.isnull().count() #denominator
+    missing_percentage = round(missing_count/value_count*100, 2)
+    missing_df = pd.DataFrame({'Count': missing_count, 'Missing (%)': missing_percentage})
+    st.dataframe(missing_df)
+
+    # barchart = missing_df.plot.bar(y='Missing (%)') # Adding labels to the bar using for loop
+    # fig, ax = plt.subplots()
+    # for index, percentage in enumerate(missing_percentage):
+    #     barchart.text(index, percentage, str(percentage) + '%')
+    # st.pyplot(fig) 
+    # 
+    # fig, ax = plt.subplots()    
+    # plt.figure(figsize=(7, 7))
+    # sns.heatmap(df.isnull(), yticklabels=False, cmap='viridis')
+    # st.write(fig)   
+
     
-    st.subheader("Plotly bar charts")
-    st.write("""
-    - Here `plotly` uses a `pandas` dataframe.
-    - Pandas uses `matplotlib` to create the plot.
-    """)
-    df = df.set_index(df.columns[0])
-    st.write(df)
-    st.bar_chart(df, use_container_width=True)
+    st.header("""Basic Statistics""")    
+    st.subheader("""Categorical variable""")    
+    for col in df.columns:
+      if df[col].dtype == 'object':
+        st.write(df[col].value_counts())
+
+    st.subheader("""Correlation heatmap""")    
+    fig, ax = plt.subplots()
+    sns.heatmap(df.corr(), ax = ax)
+    st.write(fig, use_container_width=False) 
     
-    x = df.index
-    y1 = df[df.columns[0]]
-    y2 = df[df.columns[1]]
-    
-    fig, ax1 = plt.subplots(figsize=(8, 8))
-    ax2 = ax1.twinx()
-    
-    ax1.plot(x, y1, color='tab:pink', lw=1)
-    ax2.plot(x, y2, color='tab:blue', lw=1)
-    
-    ax1.set_ylabel("MEK", color='tab:pink', fontsize=8)
-    ax1.tick_params(axis="y", labelcolor='tab:pink')
-    
-    ax2.set_ylabel("JOB", color='tab:blue', fontsize=8)
-    ax2.tick_params(axis="y", labelcolor='tab:blue')
-    
-    fig.suptitle("MEK & JOB Weight Tracking", fontsize=10)
-    fig.autofmt_xdate()
-    fig.tight_layout()
-    plt.show()
-    
-    st.pyplot(fig)
+    # st.write(skim(df))
 
 else:
     st.info(':exclamation: Awaiting user\'s input file.')
-    # if st.button('Example data'):
-    #     # Example data
-    #     @st.cache
-    #     def load_data():
-    #         a = pd.read_csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv")
-    #         return a
-    #     df = load_data()
-    #     st.header('**Input DataFrame**')
-    #     st.write(df)
-    #     st.write('---')
-    #     st.header('**Data Exploration Report**')
-    # 
-    #     # x = df['Date']
-    #     # y1 = df['MEK']
-    #     # y2 = df['JOB']
-    #     # 
-    #     # fig, ax1 = plt.subplots(figsize=(8, 8))
-    #     # ax2 = ax1.twinx()
-    #     # 
-    #     # ax1.plot(x, y1, color='tab:pink', lw=1)
-    #     # ax2.plot(x, y2, color='tab:blue', lw=1)
-    #     # 
-    #     # ax1.set_ylabel("MEK", color='tab:pink', fontsize=8)
-    #     # ax1.tick_params(axis="y", labelcolor='tab:pink')
-    #     # 
-    #     # ax2.set_ylabel("JOB", color='tab:blue', fontsize=8)
-    #     # ax2.tick_params(axis="y", labelcolor='tab:blue')
-    #     # 
-    #     # fig.suptitle("MEK & JOB Weight Tracking", fontsize=10)
-    #     # fig.autofmt_xdate()
-    #     # fig.tight_layout()
-    #     # plt.show()
-    #     # 
-    #     # st.pyplot(fig)
-    #     st.subheader("Descriptive statistics")
-    # # st.markdown("Categorical variables")
-    # # st.dataframe(df.describe(include='all'))
-    # 
-    #     st.markdown("Numerical variables")
-    #     st.dataframe(df.describe())
-    #     
-    #     st.subheader("Count distinct elements")
-    #     st.write("""
-    #     - Typically: 0 = rows [Default], 1 = headers or columns
-    #     """)
-    #     st.dataframe(df.nunique(axis=0))
-    #     
-    #     st.subheader("Plotly bar charts")
-    #     st.write("""
-    #     - Here `plotly` uses a `pandas` dataframe.
-    #     - Pandas uses `matplotlib` to create the plot.
-    #     """)
-    #     df = df.groupby(by=["day"]).sum()[["tip"]].sort_values(by=["tip"])
-    #     df = df.set_index(df.columns[1])
-    #     st.write(df)        
-    #     st.bar_chart(df, use_container_width=True)  
-

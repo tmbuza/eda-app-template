@@ -17,6 +17,14 @@ conda create -n eda python=3.10
 conda activate eda
 ```
 
+### Removing unneeded environment 
+```
+conda env remove -n env_name
+
+Example
+conda env remove -n eda
+```
+
 ### View required libraries
 - All required libraries are listed in the requirements.txt file
 - We can view the contents using `wget`like so:
