@@ -53,5 +53,5 @@ cd my-app-template
 
 ###  Using streamlit to Launch the app
 ```
-streamlit run eda-simple-app.py
+streamlit run eda-app.py
 ```
