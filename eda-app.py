@@ -6,8 +6,7 @@ from streamlit_pandas_profiling import st_profile_report
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
-import skimpy
-from skimpy import skim, generate_test_data
+
 import plotly.figure_factory as ff
 import seaborn as sns
         
