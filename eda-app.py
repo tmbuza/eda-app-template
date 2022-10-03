@@ -18,28 +18,43 @@ st.set_page_config(
      initial_sidebar_state='expanded')
 
 # App Title
-st.title("EDAA: Exploratory Data Analysis App")
-st.markdown(
-  """
-  #### EDAA does the following:
-  - Reads the data uploaded by user.
-  - Displays few line of the uploaded data.
+with st.container():
+  st.write("##")
+  st.title("EDAA: Exploratory Data Analysis App")
 
-  #### Users must:
-  - Upload input file using the user\'s widget on the left sidebar. 
-  - Make sure that the uploaded data is tidy. See the input data structure [here]().
-  """
-)
+  panel1, panel2 = st.columns((2))
+  with panel1:
+    st.markdown(
+      """
+      #### The EDAA does the following:
+      - Reads the `data` uploaded by user and automatically starts exploration.
+      - Displays the `head` and `tail` of the uploaded data (input dataframe).
+      - Shows the dataframe `dimension`, `variable names` and `missing values`.
+      - Perform `descriptive` statistical analysis of the numerical variables.
+      - Plots a `correlation` heatmap.
+      """)
+      
+  with panel2:
+    st.warning(
+      """
+      #### Users must:
+      - Upload input file using the user\'s widget on the left sidebar. 
+      - Make sure that the uploaded data is tidy. See the input data structure [here]().
+      """
+    )
 
 with st.sidebar.header('User input widget'):
-    uploaded_file = st.sidebar.file_uploader("Choose a CSV file", type=["csv"])
+    uploaded_file = st.sidebar.file_uploader("Please choose a CSV file to explore", type=["csv"])
+    
     st.sidebar.markdown("""
-""")
+    
+    """)
+    
 # [Example CSV input file](https://raw.githubusercontent.com/tmbuza/my-app-template/main/data/iris.csv)
 if uploaded_file is None:
     st.info(':exclamation: Awaiting user\'s input file')
     
-    if st.button('Run a Demo Data'):
+    if st.button('Run a Demo Data, shows minimal data exploration'):
       # Using a demo data
       @st.cache
       def load_data():
