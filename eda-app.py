@@ -14,7 +14,7 @@ import seaborn as sns
 # Page configuration
 st.set_page_config(
      page_title='EDA App',
-     page_icon=':tada:',
+     page_icon=':bar_chart:',
      layout='wide',
      initial_sidebar_state='expanded')
      
