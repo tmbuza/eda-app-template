@@ -13,3 +13,4 @@ plotnine==0.10.1
 altair==4.2.0 
 yellowbrick==1.5
 matplotlib>3.0.1
+pydataset==0.2.0
