@@ -33,7 +33,7 @@ st.set_page_config(
 #--------------------------------
 testdata = pd.read_csv("data/breast_cancer.csv")
 diamonds = pd.read_csv("data/preprocessed_diamonds.csv")
-clean = Image.open("img/ml.png")
+# clean = Image.open("img/ml.png")
 cover = Image.open("img/diamonds.png")
 logo = Image.open("img/logo.png")
 weather = pd.read_csv('data/seattle_weather.csv')
