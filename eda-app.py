@@ -43,10 +43,10 @@ weather = pd.read_csv('data/seattle_weather.csv')
 #--------------------------------
 def header():
   with st.container():  
-    st.markdown("<h1 style='text-align: center; color: #AAAAAA; font-size: 60px;'>Exploratory Data Analysis Web Applications</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center; color: #CCCCCC; font-size: 45px;'> Build Using Python and Streamlit Library</h2>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center; color: #CCCCCC; font-size: 20px;'> Author: Teresia Mrema Buza</h2>", unsafe_allow_html=True)
-    st.markdown("<center><a href='https://complexdatainsights.com'><img src='https://complexdatainsights.com/wp-content/uploads/2020/10/logo-1.png' alt=' page cover' width='10%' style='padding: 0 15px; float: center;'/></a></center>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #AAAAAA; font-size: 45px;'>Exploratory Data Analysis Web Applications</h1>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #BBBBBB; font-size: 35px;'> Build Using Python and Streamlit Library</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #CCCCCC; font-size: 20px;'> Developer: Teresia Mrema Buza</h2>", unsafe_allow_html=True)
+    st.markdown("<center><a href='https://complexdatainsights.com'><img src='https://complexdatainsights.com/wp-content/uploads/2020/10/logo-1.png' alt=' page cover' width='20%' style='padding: 0 15px; float: center;'/></a></center>", unsafe_allow_html=True)
   
   st.write("##")
   st.write("##")
@@ -93,7 +93,8 @@ def main():
         # Using a demo data
         @st.cache
         def load_data():
-            a = pd.read_csv('data/preprocessed_diamonds.csv')
+            # a = pd.read_csv('data/preprocessed_diamonds.csv')
+            a = pd.read_csv('data/seattle_weather.csv')
             return a
         df = load_data()
         st.write(""" > This demo uses a preprocessed `diamond dataset` for demonstration only.""")
@@ -349,7 +350,153 @@ with st.container():
   uploaded_file = st.sidebar.file_uploader("Please choose a CSV file", type=["csv"])
   if uploaded_file is not None:
     def load_data():
-        a = pd.read_csv(uploaded_file)
+      a = pd.read_csv(uploaded_file)
+      return a
+    df = load_data()
+    st.header("""Data Exploration""")
+    st.subheader("""Input DataFrame""")
+    st.write("Head", df.head())
+    st.write("Tail", df.tail())
+
+    st.subheader("""Dataframe dimension""")
+    st.markdown("> Note that 0 = rows, and 1 = columns")
+    st.dataframe(df.shape)
+
+    st.subheader("""Variable names""")
+    st.dataframe(pd.DataFrame({'Variable': df.columns}))
+
+    st.subheader("""Missing values""")
+    missing_count = df.isnull().sum()
+    value_count = df.isnull().count() #denominator
+    missing_percentage = round(missing_count/value_count*100, 2)
+    missing_df = pd.DataFrame({'Count': missing_count, 'Missing (%)': missing_percentage})
+    st.dataframe(missing_df)
+
+    st.header("""Basic Statistics""")
+    st.subheader("""Descriptive statistics""")
+    st.dataframe(df.describe())
+
+    st.header("""Basic Visualization""")
+    st.warning(""":warning: Please, use the `interactive visualization widget` on the sidebar to select what to plot.""")
+#-------------------------
+
+    st.header("Start Exploring Your Data")    
+    st.write(":point_left:  Use the widgets on the left to get started.") 
+    
+    # Functions for each of the pages
+    def home(uploaded_file):
+      if uploaded_file:
+        st.subheader('User data is uploaded and ready!.')
+      # else:
+      #   st.warning('Awaiting user\'s input file :exclamation:')
+      # 
+    def input_dataframe():
+      st.subheader("""Dataframe Structure""")
+      st.write("Head", df.head())
+      st.write("Tail", df.tail())
+    
+      st.subheader("""Dataframe dimension""")
+      st.markdown("> Note that 0 = rows, and 1 = columns")
+      st.dataframe(df.shape) 
+    
+    def col_names():  
+      st.subheader("""Variable Names""")
+      st.dataframe(pd.DataFrame({'Variable': df.columns}))
+      
+    def data_stats():
+      st.header("""Basic Statistics""")
+      st.subheader("""Descriptive statistics""")
+      st.dataframe(df.describe())
+    
+    def missing_data():
+      st.subheader("""Missing Data""")
+      missing_count = df.isnull().sum()
+      value_count = df.isnull().count() #denominator
+      missing_percentage = round(missing_count/value_count*100, 2)
+      missing_df = pd.DataFrame({'Count': missing_count, 'Missing (%)': missing_percentage})
+      st.dataframe(missing_df)
+    
+    def heatmap():
+      st.subheader("""Correlation Heatmap""")
+      fig, ax = plt.subplots()
+      sns.heatmap(df.corr(), ax = ax)
+      st.write(fig, use_container_width=False)
+    
+    def interactive_plot():
+        col1, col2 = st.columns(2)
+        
+        x_axis_val = col1.selectbox('Select data for the X-axis', options=df.columns)
+        y_axis_val = col2.selectbox('Select data for the Y-axis', options=df.columns)
+    
+        plot = px.scatter(df, x=x_axis_val, y=y_axis_val)
+        st.plotly_chart(plot, use_container_width=True)
+        
+        st.header("""Basic Visualization""")
+        st.subheader("""Line charts""")
+        st.line_chart(df, x=x_axis_val, y=y_axis_val)
+        st.line_chart(df, x=x_axis_val, y=y_axis_val)
+        st.line_chart(df, x=x_axis_val, y=y_axis_val)
+        
+        st.subheader("""Bar charts""")
+        st.bar_chart(df, x=x_axis_val, y=y_axis_val)
+        st.bar_chart(df, x=x_axis_val, y=y_axis_val)
+        st.bar_chart(df, x=x_axis_val, y=y_axis_val)
+        
+        st.subheader("""Area charts""")
+        st.area_chart(df, x=x_axis_val, y=y_axis_val)
+        st.area_chart(df, x=x_axis_val, y=y_axis_val)
+        st.area_chart(df, x=x_axis_val, y=y_axis_val)
+  
+    
+    # Sidebar setup
+    st.sidebar.title('User\'s Input Widget')
+    upload_file = st.sidebar.file_uploader("Please choose a tidy CSV file", type=["csv"])
+    
+    #Sidebar navigation
+    st.sidebar.title('Exploration Navigation')
+    
+    options = st.sidebar.radio('Please Select what to Display:', options = [
+      'Home', 
+      'Dataframe Structure', 
+      'Variable Names', 
+      'Missing Data',
+      'Descriptive Statistics', 
+      'Correlation Heatmap',
+      'Interactive Scatter Plots'])
+    
+    # Check if file has been uploaded
+    if upload_file:
+      df = pd.read_csv(upload_file)
+    else:
+      st.warning('Awaiting user\'s input file :exclamation:')
+     
+    # Navigation options
+    if options == 'Home':
+        home(upload_file)
+    elif options == 'Dataframe Structure':
+        input_dataframe()
+    elif options == 'Variable Names':
+        col_names()
+    elif options == 'Descriptive Statistics':
+        data_stats()
+    elif options == 'Missing Data':
+        missing_data()
+    elif options == 'Interactive Scatter Plots':
+        interactive_plot()    
+    elif options == 'Correlation Heatmap':
+        heatmap()
+
+
+
+#-------------------------
+    
+  else:
+    # st.warning(':exclamation: Awaiting user\'s input file')
+    st.warning(':exclamation: Using Seattle Weather Data as Demo')
+    @st.cache
+    def load_data():
+        # a = pd.read_csv('data/preprocessed_diamonds.csv')
+        a = pd.read_csv('data/seattle_weather.csv')
         return a
     df = load_data()
     st.header("""Data Exploration""")
@@ -401,10 +548,10 @@ with st.container():
     fig, ax = plt.subplots()
     sns.heatmap(df.corr(), ax = ax)
     st.write(fig, use_container_width=False)
-    
-  else:
-    st.warning(':exclamation: Awaiting user\'s input file')
-
+       
+      
+      
+      
 st.write("##")
 st.write("##")
 
