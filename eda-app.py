@@ -50,15 +50,19 @@ def header():
   
   st.write("##")
   st.write("##")
+
+if header():
+  header()
   
+def date_updated():
   with st.container():   
     filePath = './eda-app.py'
     modTimesinceEpoc = os.path.getmtime(filePath)
     modificationTime = datetime.datetime.fromtimestamp(modTimesinceEpoc).strftime('%Y-%m-%d %H:%M:%S')
     st.write("Last Modified: ", modificationTime )
-
-if header():
-  header()
+    
+if date_updated():
+  date_updated()
 
 def main():
   with st.container():
@@ -120,6 +124,16 @@ def main():
         st.header("""Basic Statistics""")
         st.subheader("""Descriptive statistics""")
         st.dataframe(df.describe())
+  
+        st.write("##")
+        st.write("##")
+        st.subheader("""Correlation heatmap""")
+        fig, ax = plt.subplots()
+        sns.heatmap(df.corr(), ax = ax)
+        st.write(fig, use_container_width=False)
+        
+        st.subheader("""Number of unique value""")
+        st.dataframe(df.nunique(axis=0))
   
         st.write("##")
         st.write("##")
@@ -434,18 +448,13 @@ with st.container():
         st.header("""Basic Visualization""")
         st.subheader("""Line charts""")
         st.line_chart(df, x=x_axis_val, y=y_axis_val)
-        st.line_chart(df, x=x_axis_val, y=y_axis_val)
-        st.line_chart(df, x=x_axis_val, y=y_axis_val)
         
         st.subheader("""Bar charts""")
-        st.bar_chart(df, x=x_axis_val, y=y_axis_val)
-        st.bar_chart(df, x=x_axis_val, y=y_axis_val)
         st.bar_chart(df, x=x_axis_val, y=y_axis_val)
         
         st.subheader("""Area charts""")
         st.area_chart(df, x=x_axis_val, y=y_axis_val)
-        st.area_chart(df, x=x_axis_val, y=y_axis_val)
-        st.area_chart(df, x=x_axis_val, y=y_axis_val)
+
   
     
     # Sidebar setup
@@ -487,8 +496,51 @@ with st.container():
         heatmap()
 
 
+    
+    #-------------------------
+    from pandas.api.types import is_string_dtype, is_numeric_dtype
+    catvars = []
+    numvars = []
+    for column in df:
+        if is_string_dtype(df[column]):
+            catvars.append(column)  
+        elif is_numeric_dtype(df[column]):
+            numvars.append(column)
 
-#-------------------------
+    print(pd.DataFrame({'Categorical variable': catvars}), '\n\n')
+    
+    def add_margin(ax,x=0.05,y=0.05):
+      # This will, by default, add 5% to the x and y margins. You 
+      # can customise this using the x and y arguments when you call it.
+  
+      xlim = ax.get_xlim()
+      ylim = ax.get_ylim()
+  
+      xmargin = (xlim[1]-xlim[0])*x
+      ymargin = (ylim[1]-ylim[0])*y
+  
+      ax.set_xlim(xlim[0]-xmargin,xlim[1]+xmargin)
+      ax.set_ylim(ylim[0]-ymargin,ylim[1]+ymargin)
+
+    
+    for col in catvars:
+        if df[col].dtype == 'object':
+            print('\nColumn Name:', col,)
+            print(df[col].value_counts(), '\n\n')
+    
+            fig, ax = plt.subplots();
+            ax, sns.countplot(x = col, data = df)
+            plt.title('\n\nDistribution of %s' % col, fontsize=14)
+            plt.ylabel('Count', fontsize=12)
+            add_margin(ax, x=0.0, y=0.03)
+            
+            for p in ax.patches:
+                height = p.get_height()
+                ax.text(p.get_x() + p.get_width()/2, 
+                        height + 2, '{:1.2f}'.format(height/df.shape[0]), ha = 'center')
+            # plt.show()
+            st.pyplot(fig)
+    #-------------------------
     
   else:
     # st.warning(':exclamation: Awaiting user\'s input file')
